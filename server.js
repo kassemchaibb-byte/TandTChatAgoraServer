@@ -10,6 +10,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("TandT Chat Agora Token Server is running!");
+});
+
 const APP_ID = "7bf8bb220f874e7f8f02055ef41330de";
 
 // حط App Certificate تبع Agora هون لاحقاً.
