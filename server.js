@@ -1,9 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const {
-  RtcTokenBuilder2,
-  RtcRole
-} = require("agora-access-token");
+const AgoraAccessToken = require("agora-access-token");
+const RtcTokenBuilder = AgoraAccessToken.RtcTokenBuilder;
+const RtcRole = AgoraAccessToken.RtcRole;
+console.log("DEBUG BUILDER:", RtcTokenBuilder);
+console.log("DEBUG BUILD METHOD:", typeof RtcTokenBuilder?.buildTokenWithUid);
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
 const { getMessaging } = require("firebase-admin/messaging");
@@ -83,12 +84,12 @@ app.get("/rtc-token", (req, res) => {
   const privilegeExpireTime =
     Math.floor(Date.now() / 1000) + expireTimeInSeconds;
 
-  const token = RtcTokenBuilder2.buildTokenWithUid(
+  const token = require("agora-access-token").RtcTokenBuilder.buildTokenWithUid(
     APP_ID,
     APP_CERTIFICATE,
     channelName,
     userUid,
-    RtcRole.PUBLISHER,
+    require("agora-access-token").RtcRole.PUBLISHER,
     privilegeExpireTime,
     privilegeExpireTime
   );
